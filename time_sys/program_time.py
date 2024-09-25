@@ -28,7 +28,7 @@ def start() -> None:
         print(f'Current Time : {current_time} | Minute Time : {minute_time} ~ Type: {type(minute_time)} | print time : {print_time}')
         print(f'{minute_time == "30"} | {current_time not in list(time_dict.keys())} | {13 > int(current_time[0:2]) > 5}')
         time.sleep(2)
-        if minute_time == '30' and current_time not in list(time_dict.keys()) and {13 > int(current_time[0:2]) > 5}:
+        if minute_time == '30' and current_time not in list(time_dict.keys()) and 13 > int(current_time[0:2]) > 5:
             time_dict[current_time] = True
             print("WENT THROUGH!")
             with open(USER_PATH) as file:
@@ -66,10 +66,11 @@ def message_update() -> None:
         for tuple_command in user_commands_list_tuple:
             with open(USER_PATH) as file:
                 user_dict : dict = json.load(file)
-            user_dict, msg = run_command.run_commands(user_dict, stock_price.scrap_yahoo, symbol_existance.stock_exists, tuple_command[1], tuple_command[0])
+            user_dict, msg = run_command.run_commands(user_dict, stock_price.scrap_yahoo, symbol_existance.stock_exists, send_msg.send, tuple_command[1], tuple_command[0])
             with open(USER_PATH, 'w') as file:
                 json.dump(user_dict, file)
-            send_msg.send(msg, tuple_command[0])
+            if msg:
+                send_msg.send(msg, tuple_command[0])
             recieve_msg.clear_msg(tuple_command[2])
 
 
