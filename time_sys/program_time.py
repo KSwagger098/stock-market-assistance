@@ -27,7 +27,7 @@ def start() -> None:
         print(f'Current Time : {current_time} | Minute Time : {minute_time} ~ Type: {type(minute_time)} | print time : {print_time}')
         print(f'{minute_time == "30"} | {current_time not in list(time_dict.keys())} | {13 > int(current_time[0:2]) > 5}')
         time.sleep(5)
-        if minute_time == '30' and current_time not in list(time_dict.keys()):
+        if minute_time == '30' and current_time not in list(time_dict.keys()) and {13 > int(current_time[0:2]) > 5}:
             time_dict[current_time] = True
             print("WENT THROUGH!")
             with open(USER_PATH) as file:
