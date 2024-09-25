@@ -9,7 +9,7 @@ def format_update_msg(current_time: str, new_stock_data: dict, old_stock_data: d
     Formats a message that shows if the stock has gone up or down.
     Returns a string that will be sent to the user.
 
-    stock_data : {'symbol' : price}
+    old_stock_data / new_stock_data : {'symbol' : price ~ int}
     """
     msg = ''
     if current_time == '06:30':
@@ -24,10 +24,13 @@ def format_update_msg(current_time: str, new_stock_data: dict, old_stock_data: d
         new_stock_price = round(float(new_stock_data[stock]), 2)
         msg += f"{stock_list_int}. {stock} | {price} | {'New Stock!' if stock not in list(old_stock_data.keys()) else f'DOWN {round(old_stock_price - new_stock_price, 2)}' if old_stock_price > new_stock_price else f'UP {round(new_stock_price - old_stock_price, 2)}' if old_stock_price < new_stock_price else 'NO CHANGE'}\n\n"
         stock_list_int += 1
-    if current_time != '12:30' and int(current_time[0:2]) > 10:
-        msg += f"I will update you at 0{int(current_time[0:2])}:30 for your hourly stock report!"
+    if int(current_time[0:2]) < 10:
+        msg += f"I will update you at 0{int(current_time[0:2]) + 1}:30 for your hourly stock report!"
     elif current_time != '12:30' and int(current_time[0:2]) > 10:
-        msg += f"I will update you at {int(current_time[0:2])}:30 for your hourly stock report!"
+        msg += f"I will update you at {int(current_time[0:2]) + 1}:30 for your hourly stock report!"
     else:
         msg += f"I will update you tommorow at 06:30 for your next hourly report tommorow! Have a great rest of your day!"
     return msg
+
+# Testing
+# print(format_update_msg('06:30', {'SAFE' : 26.58}, {'SAFE' : 26.78}, 'Kenneth'))
