@@ -23,4 +23,3 @@ def scrap_yahoo(stock_list : list) -> dict[str : int]:
         price = html_data.find('fin-streamer', class_ = 'livePrice yf-1i5aalm').text
         return_dict[stock] = price
     return return_dict
-
