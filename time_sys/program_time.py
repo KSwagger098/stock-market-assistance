@@ -27,7 +27,7 @@ def start() -> None:
         minute_time = current_time[3:5]
         print(f'Current Time : {current_time} | Minute Time : {minute_time} ~ Type: {type(minute_time)} | print time : {print_time}')
         print(f'{minute_time == "30"} | {current_time not in list(time_dict.keys())} | {13 > int(current_time[0:2]) > 5}')
-        time.sleep(5)
+        time.sleep(2)
         if minute_time == '30' and current_time not in list(time_dict.keys()) and {13 > int(current_time[0:2]) > 5}:
             time_dict[current_time] = True
             print("WENT THROUGH!")
@@ -74,5 +74,3 @@ def message_update() -> None:
 
 
 # update_data(['JPM', 'SAFE', 'AAPL'])
-if __name__ == "__main__":
-    start()
