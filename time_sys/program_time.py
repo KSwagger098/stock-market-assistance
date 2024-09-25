@@ -6,8 +6,9 @@ and where most of the program will run.
 import datetime, json, time
 from pathlib import Path
 from my_sending import send_msg, format_msg, recieve_msg
-from gathering import stock_price
+from gathering import stock_price, symbol_existance
 from storing import store_data, sort_users
+from commanding import run_command
 
 
 STOCK_PATH = Path.cwd()/'time_sys'/'storing'/'stocks.json'
@@ -55,11 +56,21 @@ def message_update() -> None:
     This function is called every second since the incoming messages need to be checked every few seconds.
     """
     messages = recieve_msg.check_incoming_msg()
+    print(f'\nmessage_update | {bool(messages)}\n')
     if messages:
         with open(USER_PATH) as file:
             user_dict = json.load(file)
         sorted_user_dict, user_commands_list_tuple = sort_users.sort_users(user_dict, messages)
+        print(f'AFTER-IF | sorted_user_dict {sorted_user_dict} | user_commands {user_commands_list_tuple}\n')
         store_data.store_users(USER_PATH, sorted_user_dict)
+        for tuple_command in user_commands_list_tuple:
+            with open(USER_PATH) as file:
+                user_dict : dict = json.load(file)
+            user_dict, msg = run_command.run_commands(user_dict, stock_price.scrap_yahoo, symbol_existance.stock_exists, tuple_command[1], tuple_command[0])
+            with open(USER_PATH, 'w') as file:
+                json.dump(user_dict, file)
+            send_msg.send(msg, tuple_command[0])
+            recieve_msg.clear_msg(tuple_command[2])
 
 
 # update_data(['JPM', 'SAFE', 'AAPL'])

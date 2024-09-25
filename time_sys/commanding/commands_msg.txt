@@ -1,0 +1,9 @@
+Here are the commands that are currently avaliable:
+
+1. !add | !add [stock symbol] | Adds a stock to the your list of stock
+
+2. !remove | !remove [stock symbol] | Removes a stock from your list of stock
+
+3. !stock | !stock | Shows your list of stock
+
+4. !commands | !commands | Shows the current list of commands!

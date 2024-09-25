@@ -31,8 +31,8 @@ def sort_users(user_dict, received_msgs : list[dict]) -> tuple[dict, list]:
     command_list_tuple = []
     for msg_dict in received_msgs:
         chat_id = str(msg_dict['message']['from']['id'])
+        command_list_tuple.append((chat_id, msg_dict['message']['text'], msg_dict["update_id"]))
         if chat_id not in list(user_dict.keys()):
             first_name = msg_dict['message']['from']['first_name']
-            command_list_tuple.append((chat_id, msg_dict['message']['text']))
             user_dict[chat_id] = [first_name, []]
     return user_dict, command_list_tuple
