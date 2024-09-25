@@ -3,3 +3,4 @@ users.json
 finnhub-api.txt
 telegram-api.txt
 __pycache__
+.env
