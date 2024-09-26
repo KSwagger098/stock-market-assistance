@@ -6,13 +6,11 @@ import requests
 from pathlib import Path
 
 
-def send(msg : str, chat_id : str) -> None:
+def send(msg : str, chat_id : str, fetch_token_function) -> None:
     """
     Sends any string message to the user.
     """
-    token_path = Path.cwd() / 'time_sys' / 'api-codes' / 'telegram-api.txt'
-    with open(token_path) as token_file:
-        TOKEN : str = token_file.read()
+    TOKEN = fetch_token_function("telegram_bot_token")
     print(f'send | Using {TOKEN}')
     url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}'
     info = requests.get(url).json()

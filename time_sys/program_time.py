@@ -9,6 +9,7 @@ from my_sending import send_msg, format_msg, recieve_msg
 from gathering import stock_price, symbol_existance
 from storing import store_data, sort_users
 from commanding import run_command
+from api_codes import return_tokens
 
 
 STOCK_PATH = Path.cwd()/'time_sys'/'storing'/'stocks.json'
@@ -38,7 +39,7 @@ def start() -> None:
             for chat_id, user_tuple in user_information.items():
                 new_stock_price: dict = stock_price.scrap_yahoo(user_tuple[1])
                 msg: str = format_msg.format_update_msg(current_time, new_stock_price, old_stock_price, user_tuple[0])
-                send_msg.send(msg, chat_id)
+                send_msg.send(msg, chat_id, return_tokens.give_token)
             store_data.store_stocks(STOCK_PATH, new_stock_price)
         message_update()
 
@@ -66,11 +67,11 @@ def message_update() -> None:
         for tuple_command in user_commands_list_tuple:
             with open(USER_PATH) as file:
                 user_dict : dict = json.load(file)
-            user_dict, msg = run_command.run_commands(user_dict, stock_price.scrap_yahoo, symbol_existance.stock_exists, send_msg.send, tuple_command[1], tuple_command[0])
+            user_dict, msg = run_command.run_commands(user_dict, stock_price.scrap_yahoo, symbol_existance.stock_exists, send_msg.send, return_tokens.give_token, tuple_command[1], tuple_command[0])
             with open(USER_PATH, 'w') as file:
                 json.dump(user_dict, file)
             if msg:
-                send_msg.send(msg, tuple_command[0])
+                send_msg.send(msg, tuple_command[0], return_tokens.give_token)
             recieve_msg.clear_msg(tuple_command[2])
 
 
